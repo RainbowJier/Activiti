@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- parent info   -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!-- Project info -->
+    <groupId>com.example</groupId>
+    <artifactId>SpringBoot2_JDK8</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>SpringBoot2_JDK8</name>
+    <description>SpringBoot2_JDK8</description>
+
+    <!-- submodules-->
+    <modules>
+        <module>frame</module>
+    </modules>
+
+    <!-- 版本属性 -->
+    <properties>
+        <activiti.version>7.1.0.M2</activiti.version>
+        <jwt.version>0.9.0</jwt.version> <!-- JWT version -->
+        <spring-boot.version>2.5.0</spring-boot.version> <!-- Spring Boot version -->
+        <fastjson.version>1.2.75</fastjson.version> <!-- Fastjson version -->
+        <hutool.version>5.8.27</hutool.version> <!-- Hutool version -->
+        <knife4j-openapi3.version>4.4.0</knife4j-openapi3.version> <!-- Knife4j OpenAPI version -->
+        <swagger.version>3.0.0</swagger.version> <!-- Swagger version -->
+        <springboot-devtools.version>3.1.1</springboot-devtools.version> <!-- Spring Boot DevTools version -->
+        <junit.version>4.12</junit.version> <!-- JUnit version -->
+        <mybatis-plus.version>3.5.7</mybatis-plus.version> <!-- MyBatis Plus version -->
+        <mysql.version>8.0.30</mysql.version> <!-- MySQL version -->
+        <lombok.version>1.18.28</lombok.version> <!-- Lombok version -->
+        <druid.version>1.2.8</druid.version> <!-- Druid version -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- Project source encoding -->
+        <java.version>1.8</java.version> <!-- JDK version -->
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot BOM (Bill of Materials) -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Fastjson for JSON processing -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- Hutool: a set of tools for common development tasks -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- Knife4j: Swagger UI enhancement for Spring Boot -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+                <version>${knife4j-openapi3.version}</version>
+            </dependency>
+
+            <!-- MyBatis Plus Starter: simplifies MyBatis usage -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- JJWT: JSON Web Token implementation -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <!-- MySQL Connector/J: MySQL JDBC driver -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- Druid: high-performance JDBC connection pool -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- Lombok: simplifies Java development by providing annotations -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+
+            <!--        Activiti-->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring-boot-starter</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
+            <!--            end -->
+
+
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

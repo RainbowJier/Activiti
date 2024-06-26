@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+spring:
+  #MYSQL
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/activiti?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  # activiti7配置
+  activiti:
+    # 自动部署验证设置：true-开启（默认）、false-关闭
+    check-process-definitions: false
+    # 保存历史数据
+    history-level: full
+    # 检测历史表是否存在
+    db-history-used: true
+    # 关闭自动部署
+    deployment-mode: never-fail
+    # 对数据库中所有表进行更新操作，如果表不存在，则自动创建
+    # create_drop：启动时创建表，在关闭时删除表（必须手动关闭引擎，才能删除表）
+    # drop-create：启动时删除原来的旧表，然后在创建新表（不需要手动关闭引擎）
+    database-schema-update: true
+    # 解决频繁查询SQL问题
+    async-executor-activate: false
+  #Swagger
+  # After Springboot 2.6 version, you need to configure ant_path_matcher to make swagger work properly(???).
+#  mvc:
+#    path match:
+#      matching-strategy: ant_path_matcher
+
+#MybatisPlus
+mybatis-plus:
+  #  xml文件地址
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true  # map underscore
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler   # EnumHandler
+  global-config:
+    db-config:
+      id-type: auto  # Global id, if variable id don't have @TableId.
+      update-strategy: not_null # Just update not null value.
+      # Logic Delete
+      logic-delete-field: deleted  # Globally Logic deletion
+      logic-delete-value: 1      # Deleted value is 1
+      logic-not-delete-value: 0   # Not deleted value is 0
+
+# knife3j
+# http://localhost:8080/doc.html
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+  openapi:
+    title: UMSDemo
+    description: "👀✔🐱‍🐉❌"
+    email: 3021809270@qqc.com
+    concat: RainbowJier
+    url: https://docs.xiaominfo.com
+    version: v4.0
+    license: Apache 2.0
+    license-url: https://stackoverflow.com/
+    terms-of-service-url: https://stackoverflow.com/
