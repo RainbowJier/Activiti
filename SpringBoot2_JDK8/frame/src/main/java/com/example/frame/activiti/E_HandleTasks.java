@@ -1,5 +1,6 @@
 package com.example.frame.activiti;
 
+import com.example.frame.domain.Constants;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -13,7 +14,7 @@ import static org.activiti.engine.impl.util.ProcessDefinitionUtil.getProcessDefi
  * @Date 2024/6/26
  */
 public class E_HandleTasks {
-    private static final String DEPLOYMENT_ID = "ba844cda-3399-11ef-bf20-b2359fcf31ea";
+    private static final String DEPLOYMENT_ID = Constants.DEPLOYMENT_ID;
     private static final ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
     public static void main(String[] args) {

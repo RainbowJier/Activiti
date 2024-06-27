@@ -7,39 +7,35 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+
 /**
- * @Description 👀✔🐱‍🐉❌
+ * @Description 👀✔🐱‍🐉❌激活流程实例
  * @Author RainbowJier
- * @Date 2024/6/26
+ * @Date 2024/6/27
  */
-public class C_RunProcessInstance {
+public class K_ActivateProcess {
     private static final String DEPLOYMENT_ID = Constants.DEPLOYMENT_ID;
     private static final ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
     public static void main(String[] args) {
-        ProcessInstance processInstance = runProcessInstance();
-
-        // 输出流程实例的相关信息
-        System.out.println("流程定义的ID: " + processInstance.getProcessDefinitionId());
-        System.out.println("实例ID: " + processInstance.getId());
-
-    }
-
-    public static ProcessInstance runProcessInstance() {
-        // 获取流程定义
+        RuntimeService runtimeService = engine.getRuntimeService();
         ProcessDefinition processDefinition = getProcessDefinition();
 
-        // 根据流程定义id，启动流程实例
-        RuntimeService runtimeService = engine.getRuntimeService();
-
         assert processDefinition != null;
-        return runtimeService
-                .startProcessInstanceById(processDefinition.getId());
+        ProcessInstance processInstance = runtimeService
+                .createProcessInstanceQuery()
+                .processDefinitionId(processDefinition.getId())
+                .singleResult();
+
+        boolean suspended = processInstance.isSuspended();
+        if (suspended) {
+            //当前流程实例已被挂起，激活的操作
+            runtimeService.activateProcessInstanceById(processInstance.getId());
+            System.out.println(processInstance.getId() + "流程被激活");
+        }
     }
-
-
     /**
-     * 根据部署id获取流程定义实例
+     * 根据部署 id 获取流程定义
      */
     public static ProcessDefinition getProcessDefinition() {
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -56,4 +52,8 @@ public class C_RunProcessInstance {
         }
         return processDefinition;
     }
+
+
+
+
 }

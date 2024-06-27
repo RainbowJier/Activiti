@@ -7,39 +7,38 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * @Description 👀✔🐱‍🐉❌
+ * @Description 👀✔🐱‍🐉❌设置节点的Assignee
  * @Author RainbowJier
- * @Date 2024/6/26
+ * @Date 2024/6/27
  */
-public class C_RunProcessInstance {
+public class L_SetAssignee {
     private static final String DEPLOYMENT_ID = Constants.DEPLOYMENT_ID;
     private static final ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
+
     public static void main(String[] args) {
-        ProcessInstance processInstance = runProcessInstance();
-
-        // 输出流程实例的相关信息
-        System.out.println("流程定义的ID: " + processInstance.getProcessDefinitionId());
-        System.out.println("实例ID: " + processInstance.getId());
-
-    }
-
-    public static ProcessInstance runProcessInstance() {
-        // 获取流程定义
         ProcessDefinition processDefinition = getProcessDefinition();
-
-        // 根据流程定义id，启动流程实例
-        RuntimeService runtimeService = engine.getRuntimeService();
-
         assert processDefinition != null;
-        return runtimeService
-                .startProcessInstanceById(processDefinition.getId());
+
+        RuntimeService runtimeService = engine.getRuntimeService();
+        //创建存放变量名-变量值的map
+        Map<String,Object> map = new HashMap<>();
+        map.put("assignee0","张三");
+        map.put("assignee1","李四");
+        map.put("assignee2","王五");
+
+        //创建流程实例
+        ProcessInstance instance = runtimeService
+                .startProcessInstanceById(processDefinition.getId(),map);
+
     }
-
-
     /**
-     * 根据部署id获取流程定义实例
+     * 根据部署 id 获取流程定义
      */
     public static ProcessDefinition getProcessDefinition() {
         RepositoryService repositoryService = engine.getRepositoryService();

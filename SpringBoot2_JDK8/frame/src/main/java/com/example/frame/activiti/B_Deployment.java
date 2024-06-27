@@ -17,7 +17,7 @@ public class B_Deployment {
         // 部署流程
         org.activiti.engine.repository.Deployment deploy = repositoryService.createDeployment()
                 // Add source.
-                .addClasspathResource("bpmn/leave.bpmn20.xml")
+                .addClasspathResource("bpmn/leave-1.bpmn20.xml")
                 .addClasspathResource("bpmn/leave.png")
                 .name("请假申请流程")
                 .deploy();

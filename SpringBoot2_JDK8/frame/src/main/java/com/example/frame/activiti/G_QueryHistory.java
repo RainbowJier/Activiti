@@ -1,40 +1,48 @@
 package com.example.frame.activiti;
 
 import com.example.frame.domain.Constants;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.ProcessInstance;
+
+import java.util.List;
+
 /**
  * @Description 👀✔🐱‍🐉❌
  * @Author RainbowJier
- * @Date 2024/6/26
+ * @Date 2024/6/27
  */
-public class C_RunProcessInstance {
+public class G_QueryHistory {
     private static final String DEPLOYMENT_ID = Constants.DEPLOYMENT_ID;
     private static final ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
     public static void main(String[] args) {
-        ProcessInstance processInstance = runProcessInstance();
-
-        // 输出流程实例的相关信息
-        System.out.println("流程定义的ID: " + processInstance.getProcessDefinitionId());
-        System.out.println("实例ID: " + processInstance.getId());
-
-    }
-
-    public static ProcessInstance runProcessInstance() {
         // 获取流程定义
         ProcessDefinition processDefinition = getProcessDefinition();
 
-        // 根据流程定义id，启动流程实例
-        RuntimeService runtimeService = engine.getRuntimeService();
+        // 获得HistoryService对象
+        HistoryService historyService = engine.getHistoryService();
 
+        // 查询历史信息
         assert processDefinition != null;
-        return runtimeService
-                .startProcessInstanceById(processDefinition.getId());
+        List<HistoricActivityInstance> results = historyService
+                        .createHistoricActivityInstanceQuery()
+                        .processDefinitionId(processDefinition.getId())  // 根据流程定义id
+                        .orderByHistoricActivityInstanceStartTime().desc()  //根据节点的开始时间逆序的排序
+                        .list();
+
+        System.out.println(results);
+
+        for (HistoricActivityInstance result : results) {
+            System.out.println(result.getActivityId());
+            System.out.println(result.getActivityName());
+            System.out.println(result.getActivityType());
+            System.out.println(result.getAssignee());
+            System.out.println("------------");
+        }
     }
 
 

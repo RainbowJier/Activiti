@@ -7,39 +7,32 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+
 /**
- * @Description 👀✔🐱‍🐉❌
+ * @Description 👀✔🐱‍🐉❌流程实例关联业务 id
  * @Author RainbowJier
- * @Date 2024/6/26
+ * @Date 2024/6/27
  */
-public class C_RunProcessInstance {
+public class H_RelatedBusiness {
     private static final String DEPLOYMENT_ID = Constants.DEPLOYMENT_ID;
     private static final ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
     public static void main(String[] args) {
-        ProcessInstance processInstance = runProcessInstance();
-
-        // 输出流程实例的相关信息
-        System.out.println("流程定义的ID: " + processInstance.getProcessDefinitionId());
-        System.out.println("实例ID: " + processInstance.getId());
-
-    }
-
-    public static ProcessInstance runProcessInstance() {
-        // 获取流程定义
+        RuntimeService runtimeService = engine.getRuntimeService();
         ProcessDefinition processDefinition = getProcessDefinition();
 
-        // 根据流程定义id，启动流程实例
-        RuntimeService runtimeService = engine.getRuntimeService();
-
+        // 开启流程实例，并指明business_id
         assert processDefinition != null;
-        return runtimeService
-                .startProcessInstanceById(processDefinition.getId());
+        ProcessInstance processInstance = runtimeService
+                .startProcessInstanceById(processDefinition.getId(),"1001");
+
+        System.out.println("流程实例已经创建");
+        System.out.println("业务ID："+processInstance.getBusinessKey());
+
     }
 
-
     /**
-     * 根据部署id获取流程定义实例
+     * 根据部署 id 获取流程定义
      */
     public static ProcessDefinition getProcessDefinition() {
         RepositoryService repositoryService = engine.getRepositoryService();

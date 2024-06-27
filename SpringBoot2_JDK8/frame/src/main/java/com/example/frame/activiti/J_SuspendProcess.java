@@ -7,39 +7,37 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+
 /**
- * @Description 👀✔🐱‍🐉❌
+ * @Description 👀✔🐱‍🐉❌流程实例挂起
  * @Author RainbowJier
- * @Date 2024/6/26
+ * @Date 2024/6/27
  */
-public class C_RunProcessInstance {
+public class J_SuspendProcess {
     private static final String DEPLOYMENT_ID = Constants.DEPLOYMENT_ID;
     private static final ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
     public static void main(String[] args) {
-        ProcessInstance processInstance = runProcessInstance();
+        RuntimeService runtimeService =  engine.getRuntimeService();
 
-        // 输出流程实例的相关信息
-        System.out.println("流程定义的ID: " + processInstance.getProcessDefinitionId());
-        System.out.println("实例ID: " + processInstance.getId());
-
-    }
-
-    public static ProcessInstance runProcessInstance() {
-        // 获取流程定义
         ProcessDefinition processDefinition = getProcessDefinition();
 
-        // 根据流程定义id，启动流程实例
-        RuntimeService runtimeService = engine.getRuntimeService();
+        //3.获得流程实例对象
+        ProcessInstance instance =  runtimeService.createProcessInstanceQuery()
+                        .processDefinitionId(processDefinition.getId())
+                        .singleResult();
 
-        assert processDefinition != null;
-        return runtimeService
-                .startProcessInstanceById(processDefinition.getId());
+        //4.先判断该流程是否属于正常状态（⾮挂起状态）
+        boolean suspended = instance.isSuspended();
+        if(!suspended){
+            //执⾏流程实例的挂起操作
+            runtimeService.suspendProcessInstanceById(instance.getId());
+            System.out.println(instance.getId()+"流程被挂起");
+        }
     }
 
-
     /**
-     * 根据部署id获取流程定义实例
+     * 根据部署 id 获取流程定义
      */
     public static ProcessDefinition getProcessDefinition() {
         RepositoryService repositoryService = engine.getRepositoryService();
